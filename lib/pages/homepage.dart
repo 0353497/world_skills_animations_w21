@@ -113,7 +113,7 @@ class _HomepageState extends State<Homepage> {
                     Get.to(
                       () => AboutPage(),
                       transition: Transition.downToUp,
-                      curve: Curves.decelerate,
+                      curve: Curves.bounceInOut,
                       duration: 2.seconds,
                     );
                   },
