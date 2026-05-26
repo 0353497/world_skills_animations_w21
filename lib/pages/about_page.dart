@@ -102,7 +102,7 @@ class _AboutSidebar extends StatelessWidget {
             children: [
               Positioned(
                 left: 0,
-                top: 40.0 * selectedIndex,
+                top: 55.0 * selectedIndex,
                 child: Container(
                   width: 4,
                   height: 30,
@@ -116,14 +116,21 @@ class _AboutSidebar extends StatelessWidget {
                 spacing: 24,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: List.generate(sections.length, (index) {
-                  return InkWell(
-                    onTap: () => onSelected(index),
-                    child: Text(
-                      sections[index],
-                      style: TextStyle(
-                        fontWeight: selectedIndex == index
-                            ? FontWeight.bold
-                            : null,
+                  return Center(
+                    child: InkWell(
+                      onTap: () => onSelected(index),
+                      child: SizedBox(
+                        height: 32,
+                        width: double.maxFinite,
+                        child: Text(
+                          sections[index],
+                          style: TextStyle(
+                            fontWeight: selectedIndex == index
+                                ? FontWeight.bold
+                                : null,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   );
