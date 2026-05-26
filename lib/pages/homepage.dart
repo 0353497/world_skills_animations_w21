@@ -11,6 +11,28 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  bool _showScene = false;
+  bool _showButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(2.seconds, () {
+      if (!mounted) return;
+      setState(() {
+        _showScene = true;
+      });
+    });
+
+    Future.delayed(5.seconds, () {
+      if (!mounted) return;
+      setState(() {
+        _showButton = true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +54,7 @@ class _HomepageState extends State<Homepage> {
               builder: (context, value, child) {
                 return Opacity(opacity: value, child: child);
               },
-              tween: Tween<double>(begin: 1, end: 0),
+              tween: Tween<double>(begin: 1, end: _showScene ? 0 : 1),
               duration: 3.seconds,
               child: Container(color: Color(0xffd50f67)),
             ),
@@ -40,7 +62,7 @@ class _HomepageState extends State<Homepage> {
               builder: (context, value, child) {
                 return Opacity(opacity: value, child: child);
               },
-              tween: Tween<double>(begin: 0, end: 1),
+              tween: Tween<double>(begin: 0, end: _showScene ? 1 : 0),
               duration: 3.seconds,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,26 +99,27 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             ),
-            RepeatingAnimationBuilder(
-              repeatMode: RepeatMode.reverse,
-              builder: (context, value, child) {
-                return Align(alignment: Alignment(0, value), child: child);
-              },
-              animatable: Tween(begin: .7, end: .9),
-              duration: 2.seconds,
-              curve: Curves.easeInBack,
-              child: IconButton(
-                onPressed: () {
-                  Get.to(
-                    () => AboutPage(),
-                    transition: Transition.downToUp,
-                    curve: Curves.easeIn,
-                    duration: 2.seconds,
-                  );
+            if (_showButton)
+              RepeatingAnimationBuilder(
+                repeatMode: RepeatMode.reverse,
+                builder: (context, value, child) {
+                  return Align(alignment: Alignment(0, value), child: child);
                 },
-                icon: Icon(Icons.arrow_downward),
+                animatable: Tween(begin: .7, end: .9),
+                duration: 2.seconds,
+                curve: Curves.easeInBack,
+                child: IconButton(
+                  onPressed: () {
+                    Get.to(
+                      () => AboutPage(),
+                      transition: Transition.downToUp,
+                      curve: Curves.easeIn,
+                      duration: 2.seconds,
+                    );
+                  },
+                  icon: Icon(Icons.arrow_downward),
+                ),
               ),
-            ),
           ],
         ),
       ),
