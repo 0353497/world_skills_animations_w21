@@ -8,4 +8,10 @@ class JsonReader {
     final data = await jsonDecode(json);
     return data;
   }
+
+  static Future<List> readSkills() async {
+    final json = await rootBundle.loadString("assets/data/skills.json");
+    final data = await jsonDecode(json);
+    return data;
+  }
 }
