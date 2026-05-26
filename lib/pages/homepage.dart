@@ -28,30 +28,63 @@ class _HomepageState extends State<Homepage> {
         child: Stack(
           children: [
             Positioned.fill(child: CustomPaint(painter: LampLight())),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset("assets/images/lamp.png", width: Get.width * .1),
-                Text(
-                  "Master Skills \n Change the World",
-                  style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
+            TweenAnimationBuilder(
+              builder: (context, value, child) {
+                return Opacity(opacity: value, child: child);
+              },
+              tween: Tween<double>(begin: 1, end: 0),
+              duration: 3.seconds,
+              child: Container(color: Color(0xffd50f67)),
+            ),
+            TweenAnimationBuilder(
+              builder: (context, value, child) {
+                return Opacity(opacity: value, child: child);
+              },
+              tween: Tween<double>(begin: 0, end: 1),
+              duration: 3.seconds,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(height: 120),
+                  Text(
+                    "Master Skills \n Change the World",
+                    style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  Image.asset(
+                    "assets/images/world-map.png",
+                    width: Get.width * .6,
+                  ),
+                  Row(),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment(0, -1),
+              child: TweenAnimationBuilder(
+                builder: (context, value, child) {
+                  return Transform.translate(
+                    offset: Offset(0, value),
+                    child: child,
+                  );
+                },
+                tween: Tween<double>(begin: -100, end: 0),
+                duration: 2.seconds,
+                child: Image.asset(
+                  "assets/images/lamp.png",
+                  width: Get.width * .1,
                 ),
-                Image.asset(
-                  "assets/images/world-map.png",
-                  width: Get.width * .6,
-                ),
-                Row(),
-              ],
+              ),
             ),
             RepeatingAnimationBuilder(
               repeatMode: RepeatMode.reverse,
               builder: (context, value, child) {
                 return Align(alignment: Alignment(0, value), child: child);
               },
-              animatable: Tween(begin: .8, end: .9),
+              animatable: Tween(begin: .7, end: .9),
               duration: 2.seconds,
+              curve: Curves.easeInBack,
               child: IconButton(
                 onPressed: () {
                   Get.to(
