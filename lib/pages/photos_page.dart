@@ -8,6 +8,15 @@ class PhotosPage extends StatefulWidget {
 }
 
 class _PhotosPageState extends State<PhotosPage> {
+  void _openPhoto(String imagePath) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => FullscreenImagePage(imagePath: imagePath),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,9 +47,15 @@ class _PhotosPageState extends State<PhotosPage> {
                     top: spacing,
                     height: (constraints.maxHeight / 3) - spacing,
                     width: (constraints.maxWidth / 4) - spacing,
-                    child: Image.asset(
-                      "assets/images/photo-3.jpg",
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () => _openPhoto("assets/images/photo-3.jpg"),
+                      child: Hero(
+                        tag: "assets/images/photo-3.jpg",
+                        child: Image.asset(
+                          "assets/images/photo-3.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                   //2
@@ -49,9 +64,15 @@ class _PhotosPageState extends State<PhotosPage> {
                     top: spacing,
                     height: (constraints.maxHeight / 3) - spacing,
                     width: (constraints.maxWidth / 4) - spacing,
-                    child: Image.asset(
-                      "assets/images/photo-4.jpg",
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () => _openPhoto("assets/images/photo-4.jpg"),
+                      child: Hero(
+                        tag: "assets/images/photo-4.jpg",
+                        child: Image.asset(
+                          "assets/images/photo-4.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                   //3
@@ -60,9 +81,15 @@ class _PhotosPageState extends State<PhotosPage> {
                     top: (constraints.maxHeight / 3) + spacing,
                     height: (constraints.maxHeight / 3) - spacing,
                     width: (constraints.maxWidth / 4) - spacing,
-                    child: Image.asset(
-                      "assets/images/photo-6.jpg",
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () => _openPhoto("assets/images/photo-6.jpg"),
+                      child: Hero(
+                        tag: "assets/images/photo-6.jpg",
+                        child: Image.asset(
+                          "assets/images/photo-6.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                   //4
@@ -71,9 +98,15 @@ class _PhotosPageState extends State<PhotosPage> {
                     top: (constraints.maxHeight / 3) + spacing,
                     height: (constraints.maxHeight / 3) - spacing,
                     width: (constraints.maxWidth / 4) - spacing,
-                    child: Image.asset(
-                      "assets/images/photo-5.jpg",
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () => _openPhoto("assets/images/photo-5.jpg"),
+                      child: Hero(
+                        tag: "assets/images/photo-5.jpg",
+                        child: Image.asset(
+                          "assets/images/photo-5.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                   //5
@@ -82,9 +115,15 @@ class _PhotosPageState extends State<PhotosPage> {
                     top: (constraints.maxHeight / 3) * 2 + spacing,
                     height: (constraints.maxHeight / 3) - spacing,
                     width: (constraints.maxWidth / 2) - spacing,
-                    child: Image.asset(
-                      "assets/images/photo-2.jpg",
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () => _openPhoto("assets/images/photo-2.jpg"),
+                      child: Hero(
+                        tag: "assets/images/photo-2.jpg",
+                        child: Image.asset(
+                          "assets/images/photo-2.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                   Positioned(
@@ -92,9 +131,15 @@ class _PhotosPageState extends State<PhotosPage> {
                     top: spacing,
                     height: (constraints.maxHeight / 3) * 2 - spacing,
                     width: (constraints.maxWidth / 2) - spacing,
-                    child: Image.asset(
-                      "assets/images/photo-1.jpg",
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () => _openPhoto("assets/images/photo-1.jpg"),
+                      child: Hero(
+                        tag: "assets/images/photo-1.jpg",
+                        child: Image.asset(
+                          "assets/images/photo-1.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
 
@@ -104,9 +149,15 @@ class _PhotosPageState extends State<PhotosPage> {
                     top: (constraints.maxHeight / 3) * 2 + spacing,
                     height: (constraints.maxHeight / 3) - spacing,
                     width: (constraints.maxWidth / 4) - spacing,
-                    child: Image.asset(
-                      "assets/images/photo-7.jpg",
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () => _openPhoto("assets/images/photo-7.jpg"),
+                      child: Hero(
+                        tag: "assets/images/photo-7.jpg",
+                        child: Image.asset(
+                          "assets/images/photo-7.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                   //8
@@ -115,9 +166,15 @@ class _PhotosPageState extends State<PhotosPage> {
                     top: (constraints.maxHeight / 3) * 2 + spacing,
                     height: (constraints.maxHeight / 3) - spacing,
                     width: (constraints.maxWidth / 4) - spacing,
-                    child: Image.asset(
-                      "assets/images/photo-8.jpg",
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () => _openPhoto("assets/images/photo-8.jpg"),
+                      child: Hero(
+                        tag: "assets/images/photo-8.jpg",
+                        child: Image.asset(
+                          "assets/images/photo-8.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -126,6 +183,41 @@ class _PhotosPageState extends State<PhotosPage> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class FullscreenImagePage extends StatelessWidget {
+  final String imagePath;
+
+  const FullscreenImagePage({super.key, required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Center(
+              child: Hero(
+                tag: imagePath,
+                child: InteractiveViewer(
+                  child: Image.asset(imagePath, fit: BoxFit.contain),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: IconButton(
+                icon: const Icon(Icons.close, color: Colors.white, size: 30),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -136,8 +136,15 @@ class _AboutSidebar extends StatelessWidget {
   }
 }
 
-class _AboutPageContent extends StatelessWidget {
+class _AboutPageContent extends StatefulWidget {
   const _AboutPageContent();
+
+  @override
+  State<_AboutPageContent> createState() => _AboutPageContentState();
+}
+
+class _AboutPageContentState extends State<_AboutPageContent> {
+  int _expandedTileIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -165,108 +172,66 @@ class _AboutPageContent extends StatelessWidget {
         Expanded(
           child: LayoutBuilder(
             builder: (context, constraints) {
+              final tiles = <_AboutTileConfig>[
+                _AboutTileConfig(
+                  label: "Inspire",
+                  imagePath: "assets/images/inspire.jpg",
+                  color: Colors.blue.withAlpha(150),
+                  top: 0,
+                  left: 0,
+                  width: constraints.maxWidth * .7,
+                  height: constraints.maxHeight * .5,
+                ),
+                _AboutTileConfig(
+                  label: "Develop",
+                  imagePath: "assets/images/develop.jpg",
+                  color: Colors.deepPurple.withAlpha(150),
+                  bottom: 0,
+                  left: 0,
+                  width: constraints.maxWidth * .7,
+                  height: constraints.maxHeight * .5,
+                ),
+                _AboutTileConfig(
+                  label: "Influence",
+                  imagePath: "assets/images/influence.jpg",
+                  color: Colors.pink.withAlpha(150),
+                  bottom: 0,
+                  right: 0,
+                  width: constraints.maxWidth * .3,
+                  height: constraints.maxHeight,
+                ),
+              ];
+
+              final indices = List.generate(tiles.length, (index) => index)
+                ..sort((a, b) {
+                  if (a == _expandedTileIndex) {
+                    return 1;
+                  }
+                  if (b == _expandedTileIndex) {
+                    return -1;
+                  }
+                  return 0;
+                });
+
               return Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    height: constraints.maxHeight * .5,
-                    top: 0,
-                    width: constraints.maxWidth * .7,
-                    child: Stack(
-                      children: [
-                        SizedBox(
-                          width: constraints.maxWidth * .7,
-                          height: constraints.maxHeight * .5,
-                          child: Image.asset(
-                            "assets/images/inspire.jpg",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned.fill(
-                          child: Container(
-                            color: Colors.blue.withAlpha(150),
-                            child: const Center(
-                              child: Text(
-                                "Inspire",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 32,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    height: constraints.maxHeight * .5,
-                    bottom: 0,
-                    width: constraints.maxWidth * .7,
-                    child: Stack(
-                      children: [
-                        SizedBox(
-                          width: constraints.maxWidth * .7,
-                          height: constraints.maxHeight * .5,
-                          child: Image.asset(
-                            "assets/images/develop.jpg",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned.fill(
-                          child: Container(
-                            color: Colors.deepPurple.withAlpha(150),
-                            child: const Center(
-                              child: Text(
-                                "Develop",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 32,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    height: constraints.maxHeight,
-                    bottom: 0,
-                    width: constraints.maxWidth * .3,
-                    child: Stack(
-                      children: [
-                        SizedBox(
-                          width: constraints.maxWidth * .3,
-                          height: constraints.maxHeight,
-                          child: Image.asset(
-                            "assets/images/influence.jpg",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned.fill(
-                          child: Container(
-                            color: Colors.pink.withAlpha(150),
-                            child: const Center(
-                              child: Text(
-                                "Influence",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 32,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                clipBehavior: Clip.none,
+                children: indices
+                    .map(
+                      (index) => _buildTile(
+                        config: tiles[index],
+                        isExpanded: _expandedTileIndex == index,
+                        maxWidth: constraints.maxWidth,
+                        maxHeight: constraints.maxHeight,
+                        onTap: () {
+                          setState(() {
+                            _expandedTileIndex = _expandedTileIndex == index
+                                ? -1
+                                : index;
+                          });
+                        },
+                      ),
+                    )
+                    .toList(),
               );
             },
           ),
@@ -274,4 +239,76 @@ class _AboutPageContent extends StatelessWidget {
       ],
     );
   }
+
+  Widget _buildTile({
+    required _AboutTileConfig config,
+    required bool isExpanded,
+    required double maxWidth,
+    required double maxHeight,
+    required VoidCallback onTap,
+  }) {
+    final baseLeft =
+        config.left ?? (maxWidth - (config.right ?? 0) - config.width);
+    final baseTop =
+        config.top ?? (maxHeight - (config.bottom ?? 0) - config.height);
+
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeInOut,
+      left: isExpanded ? 0 : baseLeft,
+      top: isExpanded ? 0 : baseTop,
+      width: isExpanded ? maxWidth : config.width,
+      height: isExpanded ? maxHeight : config.height,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(config.imagePath, fit: BoxFit.cover),
+            ),
+            Positioned.fill(
+              child: Container(
+                color: config.color,
+                child: Center(
+                  child: Text(
+                    config.label,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AboutTileConfig {
+  const _AboutTileConfig({
+    required this.label,
+    required this.imagePath,
+    required this.color,
+    required this.width,
+    required this.height,
+    this.top,
+    this.bottom,
+    this.left,
+    this.right,
+  });
+
+  final String label;
+  final String imagePath;
+  final Color color;
+  final double width;
+  final double height;
+  final double? top;
+  final double? bottom;
+  final double? left;
+  final double? right;
 }
