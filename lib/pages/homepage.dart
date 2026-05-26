@@ -105,7 +105,7 @@ class _HomepageState extends State<Homepage> {
                 builder: (context, value, child) {
                   return Align(alignment: Alignment(0, value), child: child);
                 },
-                animatable: Tween(begin: .7, end: .9),
+                animatable: Tween(begin: .8, end: .9),
                 duration: 2.seconds,
                 curve: Curves.easeInBack,
                 child: IconButton(
@@ -113,7 +113,7 @@ class _HomepageState extends State<Homepage> {
                     Get.to(
                       () => AboutPage(),
                       transition: Transition.downToUp,
-                      curve: Curves.easeIn,
+                      curve: Curves.decelerate,
                       duration: 2.seconds,
                     );
                   },
